@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Services - طلب شراء</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #0f0f0f; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 10px; }
+        .order-box { background: #1a1a1a; padding: 25px; border-radius: 15px; border: 2px solid #ff4500; width: 100%; max-width: 400px; box-shadow: 0 0 25px rgba(255, 69, 0, 0.3); }
+        h2 { text-align: center; color: #ff4500; margin-bottom: 20px; font-size: 1.5rem; }
+        label { display: block; margin-top: 12px; font-size: 0.85rem; color: #aaa; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #333; background: #252525; color: white; box-sizing: border-box; outline: none; transition: 0.3s; }
+        input:focus, select:focus { border-color: #ff4500; }
+        .flex-row { display: flex; gap: 10px; margin-top: 5px; }
+        button { width: 100%; padding: 15px; margin-top: 25px; background: #ff4500; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1.1rem; transition: 0.3s; }
+        button:hover { background: #e03e00; transform: scale(1.03); }
+    </style>
+</head>
+<body>
+
+<div class="order-box">
+    <h2>Online Services 🛒</h2>
+    
+    <label>الإسم الكامل</label>
+    <input type="text" id="name" placeholder="أدخل اسمك هنا" required>
+
+    <label>رقم الهاتف (Flexy / WhatsApp)</label>
+    <input type="text" id="phone" placeholder="06 / 07 / 05" required>
+
+    <label>البريد الإلكتروني (الاختياري)</label>
+    <input type="email" id="email" placeholder="example@mail.com">
+
+    <label>اختر المنتج</label>
+    <select id="product">
+        <option value="GTA V Roleplay">GTA V Roleplay - 900 DA</option>
+        <option value="FC26 (Standard/Ultimate)">FC26 - 6000 DA</option>
+        <option value="Discord Nitro">Discord Nitro - 1600 DA</option>
+        <option value="Steam Account +300 Games">Steam Account +300 - 1000 DA</option>
+        <option value="Visa Card Activation">Visa Card Activation - 3000 DA</option>
+        <option value="Free Fire / PUBG / Valorant">شحن عملات ألعاب</option>
+    </select>
+
+    <label>وسيلة التواصل واليوزر</label>
+    <div class="flex-row">
+        <select id="contactType" style="flex: 1;">
+            <option value="Discord">ديسكورد</option>
+            <option value="WhatsApp">واتساب</option>
+            <option value="Facebook">فيسبوك</option>
+            <option value="Instagram">إنستغرام</option>
+        </select>
+        <input type="text" id="contactUser" placeholder="اليوزر أو الرابط" style="flex: 1.5;">
+    </div>
+
+    <button onclick="sendToDiscord()">إرسال الطلب الآن</button>
+</div>
+
+<script>
+async function sendToDiscord() {
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value || "غير محدد";
+    const product = document.getElementById('product').value;
+    const contactType = document.getElementById('contactType').value;
+    const contactUser = document.getElementById('contactUser').value;
+
+    const webhookURL = "https://discord.com/api/webhooks/1485369664342327386/xCE5W6nHpLNrrK9gIaqBy2JFuEysWrrdCRyI3oHjqjGL9nxVmVrVRNwP5rjzLyu8BPyc";
+
+    if(!name || !phone || !contactUser) {
+        alert("من فضلك املأ الحقول المطلوبة (الاسم، الهاتف، وسيلة التواصل)");
+        return;
+    }
+
+    const payload = {
+        username: "متجر الخدمات الرقمية",
+        embeds: [{
+            title: "📦 طلب شراء جديد!",
+            color: 16729856, // لون برتقالي (Hex: FF4500)
+            fields: [
+                { name: "👤 اسم الزبون", value: name, inline: true },
+                { name: "📱 رقم الهاتف", value: phone, inline: true },
+                { name: "🎮 المنتج المطلوب", value: `**${product}**`, inline: false },
+                { name: "📧 الإيميل", value: email, inline: true },
+                { name: `🔗 تواصل عبر (${contactType})`, value: `\`${contactUser}\``, inline: true }
+            ],
+            footer: { text: "Online Services Solution | نظام الطلبات الآلي" },
+            timestamp: new Date()
+        }]
+    };
+
+    try {
+        const response = await fetch(webhookURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            alert("✅ تم إرسال طلبك بنجاح! سنتواصل معك في أقرب وقت.");
+            // مسح الخانات بعد الإرسال
+            document.getElementById('name').value = "";
+            document.getElementById('phone').value = "";
+            document.getElementById('contactUser').value = "";
+        } else {
+            alert("❌ فشل الإرسال، تأكد من اتصالك بالإنترنت.");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("❌ حدث خطأ غير متوقع.");
+    }
+}
+</script>
+
+</body>
+</html>
