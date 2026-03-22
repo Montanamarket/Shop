@@ -3,206 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Montana Shop | Exclusive Gaming Services</title>
+    <title>Montana Shop | متجر مونتانا للخدمات الرقمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --main-blue: #00d2ff;
-            --dark-blue: #0072ff;
+            --primary: #00d2ff;
+            --secondary: #0072ff;
             --accent: #ff4500;
-            --glass: rgba(22, 27, 34, 0.85);
+            --bg: #050505;
         }
 
         body { 
             font-family: 'Cairo', sans-serif; 
-            background: #050505;
+            background-color: var(--bg);
+            background: radial-gradient(circle at center, #111 0%, #050505 100%);
             color: white; 
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* خلفية متحركة بسيطة */
-        body::before {
-            content: "";
-            position: fixed;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(0, 210, 255, 0.05) 0%, transparent 80%);
-            animation: rotate 20s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        .container {
+        /* حاوية المتجر مع تأثير الزجاج المضيء */
+        .shop-card {
             width: 90%;
-            max-width: 500px;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            max-width: 480px;
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            border-radius: 25px;
             padding: 40px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            position: relative;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 210, 255, 0.1);
+            text-align: center;
         }
 
-        .header { text-align: center; margin-bottom: 30px; }
-        .header img { 
-            width: 130px; 
-            border-radius: 50%; 
-            border: 3px solid var(--main-blue);
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
-            transition: 0.5s;
+        .logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+            margin-bottom: 15px;
         }
-        .header img:hover { transform: rotate(5deg) scale(1.05); }
 
-        h1 { font-size: 1.8rem; margin: 15px 0 5px; letter-spacing: 2px; text-shadow: 0 0 10px var(--main-blue); }
-        .tagline { font-size: 0.9rem; color: var(--main-blue); opacity: 0.8; margin-bottom: 20px; }
+        h1 { font-size: 1.6rem; margin: 10px 0; letter-spacing: 1px; }
+        .tagline { color: var(--primary); font-size: 0.85rem; margin-bottom: 25px; opacity: 0.9; }
 
-        .form-group { margin-bottom: 18px; position: relative; }
-        label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: #ccc; padding-right: 5px; }
+        .input-group { text-align: right; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 0.8rem; color: #888; }
 
         input, select {
-            width: 100%; padding: 14px; background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
-            color: white; font-size: 1rem; outline: none; transition: 0.3s;
+            width: 100%; padding: 12px; background: rgba(0,0,0,0.4);
+            border: 1px solid #333; border-radius: 10px; color: white;
+            font-family: 'Cairo', sans-serif; outline: none; transition: 0.3s;
             box-sizing: border-box;
         }
 
-        input:focus, select:focus { border-color: var(--main-blue); background: rgba(0, 0, 0, 0.5); box-shadow: 0 0 10px rgba(0, 210, 255, 0.2); }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 210, 255, 0.2); }
 
-        .row { display: flex; gap: 15px; }
-
-        .btn-submit {
-            width: 100%; padding: 16px; margin-top: 20px;
-            background: linear-gradient(90deg, var(--dark-blue), var(--main-blue));
+        .btn-order {
+            width: 100%; padding: 15px; margin-top: 25px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
             border: none; border-radius: 12px; color: white;
-            font-size: 1.1rem; font-weight: bold; cursor: pointer;
-            transition: 0.4s; text-transform: uppercase;
+            font-weight: bold; font-size: 1.1rem; cursor: pointer;
+            transition: 0.4s; box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
         }
 
-        .btn-submit:hover { 
-            box-shadow: 0 0 25px rgba(0, 210, 255, 0.6); 
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-        }
+        .btn-order:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 210, 255, 0.5); }
 
-        .features {
-            display: flex; justify-content: space-around; margin-top: 30px;
-            padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);
-        }
-        .feature-item { font-size: 0.75rem; color: #888; text-align: center; }
-        .feature-item i { display: block; color: var(--main-blue); margin-bottom: 5px; font-size: 1rem; }
-
-        .copyright { text-align: center; margin-top: 25px; font-size: 0.7rem; color: #555; }
+        .footer-info { margin-top: 25px; font-size: 0.7rem; color: #444; border-top: 1px solid #222; padding-top: 15px; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <img src="https://i.ibb.co/image_030441.jpg" alt="Montana Logo">
-        <h1>MONTANA SHOP</h1>
-        <div class="tagline">Premium Gaming Solutions & Accounts</div>
-    </div>
+<div class="shop-card">
+    <img src="https://i.ibb.co/image_030441.jpg" alt="Montana Logo" class="logo">
+    <h1>MONTANA SHOP</h1>
+    <p class="tagline">أفضل الخدمات الرقمية والألعاب في مكان واحد</p>
 
-    <div class="form-group">
+    <div class="input-group">
         <label>الإسم الكامل</label>
-        <input type="text" id="name" placeholder="أدخل اسمك هنا...">
+        <input type="text" id="cust_name" placeholder="مثال: محمد الجزائري">
     </div>
 
-    <div class="row">
-        <div class="form-group" style="flex: 1.5;">
+    <div style="display: flex; gap: 10px;">
+        <div class="input-group" style="flex: 1.5;">
             <label>رقم الهاتف</label>
-            <input type="text" id="phone" placeholder="06 / 07 / 05">
+            <input type="text" id="cust_phone" placeholder="06 / 07 / 05">
         </div>
-        <div class="form-group" style="flex: 1;">
-            <label>وسيلة التواصل</label>
-            <select id="contactType">
-                <option value="Discord">Discord</option>
-                <option value="WhatsApp">WhatsApp</option>
-                <option value="Messenger">Messenger</option>
+        <div class="input-group" style="flex: 1;">
+            <label>الوسيلة</label>
+            <select id="contact_type">
+                <option value="Discord">ديسكورد</option>
+                <option value="WhatsApp">واتساب</option>
+                <option value="Facebook">فيسبوك</option>
             </select>
         </div>
     </div>
 
-    <div class="form-group">
-        <label>معرف التواصل (ID / User)</label>
-        <input type="text" id="contactUser" placeholder="@username or link">
+    <div class="input-group">
+        <label>يوزر التواصل أو الرابط</label>
+        <input type="text" id="cust_social" placeholder="@username">
     </div>
 
-    <div class="form-group">
-        <label>المنتج المطلوب</label>
-        <select id="product">
+    <div class="input-group">
+        <label>اختر المنتج المطلوب</label>
+        <select id="cust_product">
             <option value="Steam Account +300">Steam Account +300 - 1000 DA</option>
             <option value="GTA V Roleplay">GTA V Roleplay - 900 DA</option>
             <option value="Discord Nitro">Discord Nitro - 1600 DA</option>
-            <option value="Visa Card Activation">Visa Card Activation - 3000 DA</option>
             <option value="FC26 Ultimate">FC26 Ultimate - 6000 DA</option>
-            <option value="Gaming Points">شحن رصيد ألعاب (PUBG/FF)</option>
+            <option value="Visa Card Activation">تفعيل بطاقة فيزا - 3000 DA</option>
         </select>
     </div>
 
-    <button class="btn-submit" onclick="sendOrder()">تأكيد الطلب الآن</button>
+    <button class="btn-order" onclick="submitOrder()">إرسال الطلب الآن</button>
 
-    <div class="features">
-        <div class="feature-item">⚡ تسليم سريع</div>
-        <div class="feature-item">🛡️ ضمان كامل</div>
-        <div class="feature-item">🎧 دعم 24/7</div>
-    </div>
-
-    <div class="copyright">
-        © 2026 MONTANA SHOP | POWERED BY MONTANA MARKET
+    <div class="footer-info">
+        جميع الحقوق محفوظة لمتجر مونتانا © 2026<br>
+        MONTANA MARKET SOLUTIONS
     </div>
 </div>
 
 <script>
-async function sendOrder() {
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
-    const product = document.getElementById('product').value;
-    const contactType = document.getElementById('contactType').value;
-    const contactUser = document.getElementById('contactUser').value;
+async function submitOrder() {
+    const name = document.getElementById('cust_name').value;
+    const phone = document.getElementById('cust_phone').value;
+    const social = document.getElementById('cust_social').value;
+    const type = document.getElementById('contact_type').value;
+    const product = document.getElementById('cust_product').value;
 
     const webhook = "https://discord.com/api/webhooks/1485369664342327386/xCE5W6nHpLNrrK9gIaqBy2JFuEysWrrdCRyI3oHjqjGL9nxVmVrVRNwP5rjzLyu8BPyc";
 
-    if(!name || !phone || !contactUser) {
-        alert("يرجى ملء كافة الخانات المطلوبة");
+    if(!name || !phone || !social) {
+        alert("يرجى ملء البيانات المطلوبة لنتواصل معك");
         return;
     }
 
-    const payload = {
-        username: "Montana System",
+    const msg = {
+        username: "Montana Store Bot",
         avatar_url: "https://i.ibb.co/image_030441.jpg",
         embeds: [{
-            title: "💎 طلب شراء جديد!",
-            description: "وصلت طلبية جديدة من واجهة المتجر الرئيسية.",
+            title: "🔔 طلبية جديدة وصلت!",
             color: 53759,
             fields: [
                 { name: "👤 العميل", value: name, inline: true },
                 { name: "📱 الهاتف", value: phone, inline: true },
-                { name: "🎮 المنتج", value: `**${product}**`, inline: false },
-                { name: `🔗 ${contactType}`, value: `\`${contactUser}\``, inline: true }
-            ],
-            footer: { text: "Montana Shop - Order Management" },
-            timestamp: new Date()
-        }]
-    };
-
-    try {
-        const res = await fetch(webhook, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        if(res.ok) alert("✅ تم إرسال طلبك! ترقب تواصلنا معك قريباً.");
-        else alert("❌ فشل الإرسال، تواصل مع الدعم الفني.");
-    } catch(e) { alert("❌ خطأ في الاتصال بالشبكة."); }
-}
-</script>
-
-</body>
-</html>
+                { name:
